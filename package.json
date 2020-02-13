@@ -1,15 +1,18 @@
 {
-    "name": "node-server-template",
-    "version": "0.0.2",
-    "description": "📡 Node/Express server template that sends canned responses to requests.",
+    "name": "service-movie-search",
+    "version": "0.0.1",
+    "description": "🎥 Movie API",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon server.js"
+        "start": "NODE_OPTIONS=--max-old-space-size=8192 nodemon . --ignore 'data/*'"
     },
     "author": "Yves Gurcan",
     "license": "MIT",
     "dependencies": {
         "express": "^4.17.1",
         "nodemon": "^2.0.2"
+    },
+    "devDependencies": {
+        "prettier": "^1.19.1"
     }
 }
