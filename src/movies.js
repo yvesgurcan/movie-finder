@@ -2,6 +2,9 @@ const fs = require('fs');
 const readline = require('readline');
 
 const MOVIES = 'movies';
+const PRIMARY_TITLE = 'primaryTitle';
+const ORIGINAL_TITLE = 'originalTitle';
+const START_YEAR = 'startYear';
 
 const movies = require('../data/title.basics.json');
 
@@ -46,10 +49,25 @@ const parseMovies = function() {
     });
 };
 
+const isPartialMatch = (movie, searchTerm, property) => {
+    // const pattern = new RegExp();
+    return !searchTerm || movie[property] === searchTerm;
+};
+
 module.exports = app => {
     app.get(`/${MOVIES}`, (req, res) => {
-        console.log(`GET /${MOVIES}`);
-        res.send(movies);
+        const { query } = req;
+        console.log(`GET /${MOVIES} ${JSON.stringify(query)}`);
+        const { primaryTitle, originalTitle, startYear, sortOrder } = query;
+
+        const matchedMovies = movies.filter(
+            movie =>
+                isPartialMatch(movie, primaryTitle, PRIMARY_TITLE) &&
+                isPartialMatch(movie, originalTitle, ORIGINAL_TITLE) &&
+                isPartialMatch(movie, startYear, START_YEAR)
+        );
+
+        res.send({ count: matchedMovies.length, movies: matchedMovies });
     });
 
     app.post(`/${MOVIES}`, (req, res) => {
