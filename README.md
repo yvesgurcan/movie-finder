@@ -1,5 +1,3 @@
-# Node/Express microservice
-
 ## Endpoints
 
     GET /movies
