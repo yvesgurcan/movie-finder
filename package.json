@@ -1,0 +1,15 @@
+{
+    "name": "node-server-template",
+    "version": "0.0.2",
+    "description": "📡 Node/Express server template that sends canned responses to requests.",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "author": "Yves Gurcan",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.17.1",
+        "nodemon": "^2.0.2"
+    }
+}
