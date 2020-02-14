@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-app.use(bodyParser.json({ extended: false }));
+app.use(express.json());
 
 // avoid CORS issue
 app.all('/*', function(req, res, next) {
