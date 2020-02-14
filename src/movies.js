@@ -6,7 +6,7 @@ const PRIMARY_TITLE = 'primaryTitle';
 const ORIGINAL_TITLE = 'originalTitle';
 const START_YEAR = 'startYear';
 
-const movies = require('../data/title.basics.json');
+global.movies = require('../data/title.basics.json');
 
 const parseMovies = function() {
     const INPUT_PATH = './data/title.basics.tsv';
@@ -60,7 +60,7 @@ module.exports = app => {
         console.log(`GET /${MOVIES} ${JSON.stringify(query)}`);
         const { primaryTitle, originalTitle, startYear, sortOrder } = query;
 
-        const matchedMovies = movies.filter(
+        const matchedMovies = global.movies.filter(
             movie =>
                 isPartialMatch(movie, primaryTitle, PRIMARY_TITLE) &&
                 isPartialMatch(movie, originalTitle, ORIGINAL_TITLE) &&
@@ -71,7 +71,8 @@ module.exports = app => {
     });
 
     app.post(`/${MOVIES}`, (req, res) => {
-        console.log(`POST /${MOVIES}`);
+        const { body } = req;
+        console.log(`POST /${MOVIES} ${body}`);
         res.status(201);
         res.send();
     });
