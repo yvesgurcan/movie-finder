@@ -31,7 +31,7 @@ Permettre d’effectuer une recherche sur les éléments de la liste avec les cr
 
 Un filtre permet d’organiser la liste par `startYear`.
 
-Ajouter un article via une popup en précisant les champs suivants primaryTitle, originalTitle, startYear
+Ajouter un article via une popup en précisant les champs suivants : `primaryTitle`, `originalTitle`, `startYear`.
 
 ### Frontend
 
