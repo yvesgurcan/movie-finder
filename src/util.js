@@ -53,9 +53,10 @@ const isPartialMatch = (movie, rawSearchTerm = '', propertyName) => {
     const normalizedProperty = String(property).toLowerCase();
     const normalizedSearchTerms = rawSearchTerm.split(' ');
 
+    // TODO: Instead of returning a boolean, return an accuracy index that represents how likely this movie is the one that the user is looking for
     const pattern = new RegExp(normalizedSearchTerms.join('|'), 'i');
 
-    return !searchTerm || pattern.test(normalizedProperty);
+    return !rawSearchTerm || pattern.test(normalizedProperty);
 };
 
 const validateMovie = movie => {
