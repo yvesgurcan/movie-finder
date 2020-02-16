@@ -1,4 +1,9 @@
-const { isPartialMatch, validateMovie, getNextAvailableId } = require('./util');
+const {
+    isPartialMatch,
+    sortByStartYear,
+    validateMovie,
+    getNextAvailableId
+} = require('./util');
 const {
     MOVIES,
     PRIMARY_TITLE,
@@ -12,7 +17,13 @@ module.exports = app => {
     app.get(`/${MOVIES}`, (req, res) => {
         const { query } = req;
         console.log(`GET /${MOVIES} ${JSON.stringify(query)}`);
-        const { primaryTitle, originalTitle, startYear, sortOrder } = query;
+
+        const {
+            primaryTitle,
+            originalTitle,
+            startYear,
+            sortOrder = 'ASC'
+        } = query;
 
         const matchedMovies = global.movies.filter(
             movie =>
@@ -21,12 +32,15 @@ module.exports = app => {
                 isPartialMatch(movie, startYear, START_YEAR)
         );
 
-        res.send({ count: matchedMovies.length, movies: matchedMovies });
+        sortedMovies = sortByStartYear(matchedMovies, sortOrder);
+
+        res.send({ count: matchedMovies.length, movies: sortedMovies });
     });
 
     app.post(`/${MOVIES}`, (req, res) => {
         const { body } = req;
         console.log(`POST /${MOVIES} ${JSON.stringify(body)}`);
+
         const { primaryTitle, originalTitle, startYear } = body;
 
         const movie = {

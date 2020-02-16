@@ -59,6 +59,11 @@ const isPartialMatch = (movie, rawSearchTerm = '', propertyName) => {
     return !rawSearchTerm || pattern.test(normalizedProperty);
 };
 
+const sortByStartYear = (movies, sortOrder) =>
+    [...movies].sort(({ startYear: startYearA }, { startYear: startYearB }) =>
+        sortOrder === 'DESC' ? startYearB - startYearA : startYearA - startYearB
+    );
+
 const validateMovie = movie => {
     const errors = { messages: {}, count: 0 };
     REQUIRED_PROPERTIES.forEach(({ key, name, type }) => {
@@ -91,6 +96,7 @@ const getNextAvailableId = ({ length: numberOfMovies }) => {
 module.exports = {
     parseMovies,
     isPartialMatch,
+    sortByStartYear,
     validateMovie,
     getNextAvailableId
 };
