@@ -11,10 +11,12 @@
 
 ## Setup
 
+    cd node
     npm i
 
 ## Development
 
+    cd node
     npm start
 
 A Node microservice will start listening for requests at `localhost:3000`.
