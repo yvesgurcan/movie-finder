@@ -27,9 +27,9 @@ A Node microservice will start listening for requests at `localhost:3000`.
 
 L’application Web devra :
 
-[x] Permettre d’effectuer une recherche sur les éléments de la liste avec les critères suivant (`primaryTitle`, `originalTitle`, `startYear`)
+[ ] Permettre d’effectuer une recherche sur les éléments de la liste avec les critères suivant (`primaryTitle`, `originalTitle`, `startYear`)
 
-[x] Un filtre permet d’organiser la liste par `startYear`.
+[ ] Un filtre permet d’organiser la liste par `startYear`.
 
 [ ] Ajouter un article via une popup en précisant les champs suivants : `primaryTitle`, `originalTitle`, `startYear`.
 
