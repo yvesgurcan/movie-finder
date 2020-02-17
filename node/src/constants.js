@@ -1,5 +1,4 @@
 const API_MAJOR_VERSION_PREFIX = 'v1';
-
 const MOVIES = 'movies';
 const PRIMARY_TITLE = 'primaryTitle';
 const ORIGINAL_TITLE = 'originalTitle';
