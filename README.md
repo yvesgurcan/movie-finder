@@ -9,10 +9,28 @@
 -   Express
 -   Prettier config
 
-## Setup
+## Setup Node API
+
+To set up the Node API, please enter the following commands in your terminal from the root of this repository:
 
     cd node
     npm i
+
+## Dataset
+
+To automatically fetch, extract, and convert to JSON the data set, run this command in `/node`:
+
+    npm run data:init
+
+The output in your terminal should look like this:
+
+![Screenshot of successfully data extraction.](./doc/data-extraction.png)
+
+You may then start the api.
+
+    npm start
+
+## Setup React client
 
 ## Development
 
@@ -51,8 +69,8 @@ NodeJS :
 
 -   [x] A minima ExpressJS
 
--   [ ] Le jeu de données utilisé pour ce test sera le suivant : https://datasets.imdbws.com/title.basics.tsv.gz
+-   [x] Le jeu de données utilisé pour ce test sera le suivant : https://datasets.imdbws.com/title.basics.tsv.gz
 
--   [ ] Ce jeu peut être converti dans le format que vous souhaitez.
+-   [x] Ce jeu peut être converti dans le format que vous souhaitez.
 
 -   [ ] Attachés un Readme au projet en précisant les commandes d'exécution des projets front et back.
