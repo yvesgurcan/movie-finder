@@ -1,0 +1,18 @@
+{
+    "name": "service-movie-finder",
+    "version": "0.0.1",
+    "description": "🎥 Movie Finder API",
+    "main": "server.js",
+    "scripts": {
+        "start": "NODE_OPTIONS=--max-old-space-size=8192 nodemon . --ignore 'data/*'"
+    },
+    "author": "Yves Gurcan",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.17.1",
+        "nodemon": "^2.0.2"
+    },
+    "devDependencies": {
+        "prettier": "^1.19.1"
+    }
+}
