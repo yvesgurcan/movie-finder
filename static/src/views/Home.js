@@ -52,17 +52,19 @@ export default () => {
     };
 
     const fetchMovies = async function(parameters) {
-        const queryString = objectToQueryString(parameters);
-        const response = await fetch(`${ENDPOINT}${queryString}`);
-        const data = await response.json();
-        setMovies(data.movies);
+        if (
+            parameters.primaryTitle.length > 3 ||
+            parameters.originalTitle.length > 3 ||
+            parameters.startYear.length > 3
+        ) {
+            const queryString = objectToQueryString(parameters);
+            const response = await fetch(`${ENDPOINT}${queryString}`);
+            const data = await response.json();
+            setMovies(data.movies);
 
-        setCurrentPage(0);
+            setCurrentPage(0);
+        }
     };
-
-    useEffect(() => {
-        fetchMovies(searchParameters);
-    }, []);
 
     const refetchMovies = () => {
         fetchMovies(searchParameters);

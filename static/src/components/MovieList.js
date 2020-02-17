@@ -27,7 +27,7 @@ export default ({ movies }) => (
                 )}
                 {movie.genres && (
                     <MovieProperty key={'genres'}>
-                        Genres: {movie.genres.split(',').join(', ')}
+                        Genres: {movie.genres.join(', ')}
                     </MovieProperty>
                 )}
             </MovieContainer>
