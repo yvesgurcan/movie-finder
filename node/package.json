@@ -1,16 +1,23 @@
 {
     "name": "service-movie-finder",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "description": "🎥 Movie Finder API",
-    "main": "server.js",
+    "main": "index.js",
     "scripts": {
-        "start": "NODE_OPTIONS=--max-old-space-size=8192 nodemon . --ignore 'data/*'"
+        "start": "NODE_OPTIONS=--max-old-space-size=8192 nodemon ./src --ignore 'data/*'",
+        "data:init": "npm run data:fetch && npm run data:unzip && npm run data:parse",
+        "data:fetch": "node ./scripts/fetch",
+        "data:unzip": "node ./scripts/unzip",
+        "data:parse": "node ./scripts/parse"
     },
     "author": "Yves Gurcan",
     "license": "MIT",
     "dependencies": {
+        "count-lines-in-file": "^1.1.0",
         "express": "^4.17.1",
-        "nodemon": "^2.0.2"
+        "node-fetch": "^2.6.0",
+        "nodemon": "^2.0.2",
+        "zlib": "^1.0.5"
     },
     "devDependencies": {
         "prettier": "^1.19.1"
