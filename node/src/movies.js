@@ -1,8 +1,8 @@
 const {
     isPartialMatch,
-    sortByStartYear,
     validateMovie,
-    getNextAvailableId
+    getNextAvailableId,
+    sortByStartYear
 } = require('./util');
 const {
     API_MAJOR_VERSION_PREFIX,
@@ -19,12 +19,7 @@ module.exports = app => {
         const { query } = req;
         console.log(`GET /${MOVIES} ${JSON.stringify(query)}`);
 
-        const {
-            primaryTitle,
-            originalTitle,
-            startYear,
-            sortOrder = 'ASC'
-        } = query;
+        const { primaryTitle, originalTitle, startYear } = query;
 
         const matchedMovies = global.movies.filter(
             movie =>
@@ -33,9 +28,10 @@ module.exports = app => {
                 isPartialMatch(movie, startYear, START_YEAR)
         );
 
-        sortedMovies = sortByStartYear(matchedMovies, sortOrder);
-
-        res.send({ count: matchedMovies.length, movies: sortedMovies });
+        res.send({
+            count: matchedMovies.length,
+            movies: sortByStartYear(matchedMovies)
+        });
     });
 
     app.post(`/${API_MAJOR_VERSION_PREFIX}/${MOVIES}`, (req, res) => {
@@ -63,7 +59,11 @@ module.exports = app => {
             ttconst,
             primaryTitle,
             originalTitle,
-            startYear
+            startYear,
+            endYear: null,
+            runtimeMinutes: null,
+            genres: null,
+            titleType: null
         };
 
         global.movies.push(newMovie);

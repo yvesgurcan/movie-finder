@@ -1,35 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { REQUIRED_PROPERTIES } from '../constants';
+import Sort from './Sort';
+import Form from './Form';
+import AddMovieButton from '../components/AddMovieButton';
 
-export default ({ searchParameters, handleOnChange }) => (
+export default ({
+    movies,
+    searchParameters,
+    handleOnChange,
+    toggleSortOrder,
+    setIsModalOpen
+}) => (
     <Container>
         <legend>Search Movies</legend>
         <SearchFieldContainer>
             <SearchFields>
-                {REQUIRED_PROPERTIES.map(({ key, name, type }) => (
-                    <LabelContainer key={key} htmlFor={key}>
-                        <Label>{name}:</Label>
-                        <InputContainer>
-                            <SearchField
-                                id={key}
-                                placeholder={`Search by ${name.toLowerCase()}`}
-                                value={searchParameters[key]}
-                                onChange={event =>
-                                    handleOnChange(event.target.value, key)
-                                }
-                            />
-                        </InputContainer>
-                    </LabelContainer>
-                ))}
+                <Form
+                    properties={REQUIRED_PROPERTIES}
+                    handleOnChange={handleOnChange}
+                    values={searchParameters}
+                />
+                <Sort
+                    ascending={searchParameters.ascending}
+                    toggleSortOrder={toggleSortOrder}
+                />
             </SearchFields>
         </SearchFieldContainer>
+        <ListInfo>
+            <MovieCount>{movies.length} movies found.</MovieCount>
+            <AddMovieButton setIsModalOpen={setIsModalOpen} />
+        </ListInfo>
     </Container>
 );
 
-const Container = styled.fieldset`
-    max-width: 700px;
-`;
+const Container = styled.fieldset``;
 
 const SearchFieldContainer = styled.div`
     display: flex;
@@ -41,7 +46,7 @@ const SearchFields = styled.div`
     display: flex;
     flex-wrap: wrap;
 
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 570px) {
         & {
             display: block;
             width: 100%;
@@ -57,7 +62,7 @@ const LabelContainer = styled.label`
     padding-right: 15px;
     display: flex;
 
-    @media only screen and (max-width: 700px) {
+    @media only screen and (max-width: 780px) {
         & {
             display: block;
         }
@@ -66,6 +71,8 @@ const LabelContainer = styled.label`
 
 const Label = styled.span`
     margin-right: 5px;
+    display: flex;
+    align-self: center;
 `;
 
 const InputContainer = styled.div`
@@ -74,3 +81,11 @@ const InputContainer = styled.div`
 `;
 
 const SearchField = styled.input``;
+
+const MovieCount = styled.span`
+    color: grey;
+`;
+
+const ListInfo = styled.div`
+    text-align: center;
+`;

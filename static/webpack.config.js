@@ -33,7 +33,10 @@ module.exports = {
         writeToDisk: true,
         stats: 'minimal',
         proxy: {
-            '/api': 'http://localhost:3000'
+            '/api': {
+                target: 'http://localhost:3000/v1',
+                pathRewrite: { '^/api': '' }
+            }
         }
     }
 };
