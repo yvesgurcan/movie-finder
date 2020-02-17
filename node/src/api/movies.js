@@ -1,20 +1,35 @@
 const {
+    loadDataSet,
     isPartialMatch,
     validateMovie,
     getNextAvailableId,
     sortByStartYear
-} = require('./util');
+} = require('../util');
 const {
     API_MAJOR_VERSION_PREFIX,
     MOVIES,
     PRIMARY_TITLE,
     ORIGINAL_TITLE,
     START_YEAR
-} = require('./constants');
+} = require('../constants');
 
-global.movies = require('../data/title.basics.json');
+global.movies = [];
+global.initialized = false;
+
+loadDataSet();
 
 module.exports = app => {
+    app.all(`/${API_MAJOR_VERSION_PREFIX}/${MOVIES}`, function(req, res, next) {
+        if (!global.initialized) {
+            console.log(`ANY /${MOVIES}`);
+            res.status(503).send(
+                'Server is not ready for requests yet. Please check back in a moment...'
+            );
+            return;
+        }
+        next();
+    });
+
     app.get(`/${API_MAJOR_VERSION_PREFIX}/${MOVIES}`, (req, res) => {
         const { query } = req;
         console.log(`GET /${MOVIES} ${JSON.stringify(query)}`);

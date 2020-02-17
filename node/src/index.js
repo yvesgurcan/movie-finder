@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const { PORT } = require('./constants');
 
 const app = express();
 app.use(express.json());
@@ -12,6 +12,6 @@ app.all('/*', function(req, res, next) {
 });
 
 // endpoints
-require('./src/movies')(app);
+require('./api/movies')(app);
 
-app.listen(3000, 'localhost', () => console.log(`Server listening\n`));
+app.listen(PORT);
