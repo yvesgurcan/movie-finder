@@ -47,13 +47,16 @@ const parseMovies = function() {
     });
 };
 
+const escapeRegularExpression = string =>
+    string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
 const isPartialMatch = (movie, rawSearchTerm = '', propertyName) => {
     const property = movie[propertyName];
     // TODO: It is not necessary to normalize startYear since it is essentially a number, not a string
     const normalizedProperty = String(property).toLowerCase();
 
     // TODO: Instead of returning a boolean, return an accuracy index that represents how likely this movie is the one that the user is looking for by splitting the search terms and counting occurrences
-    const pattern = new RegExp(rawSearchTerm, 'i');
+    const pattern = new RegExp(escapeRegularExpression(rawSearchTerm), 'i');
 
     return !rawSearchTerm || pattern.test(normalizedProperty);
 };
@@ -87,10 +90,9 @@ const getNextAvailableId = ({ length: numberOfMovies }) => {
     return `${ID_PREFIX}${paddingZeroes}${numberOfMovies}`;
 };
 
-const sortByStartYear = movies =>
-    movies.sort(
-        ({ startYear: startYearA }, { startYear: startYearB }) =>
-            startYearB - startYearA
+const sortByStartYear = (movies, ascending) =>
+    [...movies].sort(({ startYear: startYearA }, { startYear: startYearB }) =>
+        ascending === 'true' ? startYearA - startYearB : startYearB - startYearA
     );
 
 module.exports = {

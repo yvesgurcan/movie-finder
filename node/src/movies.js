@@ -19,7 +19,12 @@ module.exports = app => {
         const { query } = req;
         console.log(`GET /${MOVIES} ${JSON.stringify(query)}`);
 
-        const { primaryTitle, originalTitle, startYear } = query;
+        const {
+            primaryTitle = '',
+            originalTitle = '',
+            startYear = '',
+            ascending = false
+        } = query;
 
         const matchedMovies = global.movies.filter(
             movie =>
@@ -30,7 +35,7 @@ module.exports = app => {
 
         res.send({
             count: matchedMovies.length,
-            movies: sortByStartYear(matchedMovies)
+            movies: sortByStartYear(matchedMovies, ascending)
         });
     });
 
