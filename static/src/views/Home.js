@@ -26,7 +26,7 @@ export default () => {
     });
     const [movies, setMovies] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOnChange = (value, key) => {
         const newSearchParameters = {

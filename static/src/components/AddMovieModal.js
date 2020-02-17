@@ -16,7 +16,7 @@ export default ({ setIsModalOpen, refetchMovies }) => {
         [START_YEAR]: ''
     });
 
-    const [addErrors, setAddErrors] = useState(null);
+    const [addErrors, setAddErrors] = useState({ messages: {} });
 
     const handleOnChange = (value, key) => {
         const newMovie = {
@@ -27,7 +27,6 @@ export default ({ setIsModalOpen, refetchMovies }) => {
     };
 
     const addMovie = async function(parameters) {
-        console.log(parameters);
         const response = await fetch(`${ENDPOINT}`, {
             method: 'POST',
             headers: {
@@ -38,7 +37,7 @@ export default ({ setIsModalOpen, refetchMovies }) => {
         const data = await response.json();
         console.log({ data });
         if (data.errors) {
-            setAddErrors(data.errors);
+            setAddErrors(data.errors.messages);
             return;
         }
 
@@ -50,12 +49,18 @@ export default ({ setIsModalOpen, refetchMovies }) => {
             <GlobalStyle />
             <Modal onClick={event => event.stopPropagation()}>
                 <h2>Add Movie</h2>
-                <Form
-                    formId="modal"
-                    properties={REQUIRED_PROPERTIES}
-                    handleOnChange={handleOnChange}
-                    values={movie}
-                />
+                <FormContainer>
+                    <div>
+                        <Form
+                            formId="modal"
+                            properties={REQUIRED_PROPERTIES}
+                            handleOnChange={handleOnChange}
+                            values={movie}
+                            errors={addErrors}
+                            smallSizeOnly
+                        />
+                    </div>
+                </FormContainer>
                 <ButtonContainer>
                     <button onClick={() => addMovie(movie)}>Submit</button>
                     <button onClick={() => setIsModalOpen(false)}>
@@ -90,6 +95,11 @@ const Modal = styled.div`
     padding: 40px;
     margin: auto;
     border: 1px solid rgb(80, 80, 80);
+    min-width: 180px;
+`;
+
+const FormContainer = styled.div`
+    min-height: 200px;
 `;
 
 const ButtonContainer = styled.div`

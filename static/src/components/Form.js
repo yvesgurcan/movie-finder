@@ -1,9 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default ({ formId = 'form', properties, handleOnChange, values }) =>
+export default ({
+    formId = 'form',
+    properties,
+    handleOnChange,
+    values,
+    errors,
+    smallSizeOnly
+}) =>
     properties.map(({ key, name }) => (
-        <LabelContainer key={key} htmlFor={`${formId}${key}`}>
+        <LabelContainer
+            key={key}
+            htmlFor={`${formId}${key}`}
+            smallSizeOnly={smallSizeOnly}
+        >
             <Label>{name}:</Label>
             <InputContainer>
                 <SearchField
@@ -13,13 +24,14 @@ export default ({ formId = 'form', properties, handleOnChange, values }) =>
                     onChange={event => handleOnChange(event.target.value, key)}
                 />
             </InputContainer>
+            {errors && <Error>{errors[key]}</Error>}
         </LabelContainer>
     ));
 
 const LabelContainer = styled.label`
     padding: 3px;
     padding-right: 15px;
-    display: flex;
+    display: ${props => (props.smallSizeOnly ? 'block' : 'flex')};
 
     @media only screen and (max-width: 780px) {
         & {
@@ -39,4 +51,11 @@ const InputContainer = styled.div`
     align-self: center;
 `;
 
-const SearchField = styled.input``;
+const SearchField = styled.input`
+    width: 100%;
+`;
+
+const Error = styled.div`
+    color: orange;
+    max-width: 160px;
+`;
