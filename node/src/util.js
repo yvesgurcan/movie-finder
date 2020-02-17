@@ -1,49 +1,51 @@
 const fs = require('fs');
 const readline = require('readline');
+
 const {
-    INPUT_PATH,
-    OUTPUT_PATH,
     REQUIRED_PROPERTIES,
     ID_PREFIX,
     ID_MAX_DIGITS,
-    ZERO
+    ZERO,
+    OUTPUT_PATH,
+    IS_ADULT,
+    GENRES,
+    START_YEAR,
+    END_YEAR,
+    RUNTIME_MINUTES
 } = require('./constants');
 
-const parseMovies = function() {
-    const inputStream = fs.createReadStream(INPUT_PATH, 'utf8');
-    const outputStream = fs.createWriteStream(OUTPUT_PATH, {
-        encoding: 'utf8',
-        flags: 'w'
-    });
-    const rl = readline.createInterface(inputStream);
+const loadDataSet = function() {
+    console.log(
+        'Loading the data set. Please wait, this might take a while...'
+    );
+    const movies = [];
+    const dataSet = fs.createReadStream(OUTPUT_PATH, 'utf8');
 
     let lineCount = 0;
-    let headers = [];
+
+    const rl = readline.createInterface(dataSet);
 
     rl.on('line', function(line) {
-        const data = line.split('\t');
-
-        if (lineCount === 0) {
-            headers = [...data];
-        } else {
-            let parsedData = {};
-            headers.forEach((header, index) => {
-                const value = data[index] === '\\N' ? null : data[index];
-                parsedData[header] = value;
-            });
-            outputStream.write(`${JSON.stringify(parsedData)},`);
+        const parsedLine = line.substring(0, line.length - 1);
+        try {
+            movies.push(JSON.parse(parsedLine));
+        } catch (error) {
+            console.error({ error });
         }
-        ++lineCount;
-        console.log({ lineCount });
-        rl.close();
+        lineCount++;
+
+        if (lineCount % 250000 === 0) {
+            console.log(`${parseBigNumber(lineCount)} items loaded...`);
+        }
     });
 
-    rl.on('end', function() {
-        console.log({ movies });
-    });
-
-    rl.on('error', function() {
-        console.log('Oops!');
+    rl.on('close', function() {
+        console.log(
+            `Total: ${parseBigNumber(lineCount)} items were processed.`
+        );
+        console.log('Dataset loaded.');
+        global.movies = movies;
+        global.initialized = true;
     });
 };
 
@@ -95,10 +97,38 @@ const sortByStartYear = (movies, ascending) =>
         ascending === 'true' ? startYearA - startYearB : startYearB - startYearA
     );
 
+const parseBigNumber = number =>
+    String(number)
+        .split(/(?=(?:...)*$)/)
+        .join(' ');
+
+const parseProperty = (header, value) => {
+    switch (header) {
+        default: {
+            return value === '\\N' ? null : value;
+        }
+        case IS_ADULT: {
+            return !!(value === '1');
+        }
+        case GENRES: {
+            return value === '["\\N"]' ? null : value.split(',');
+        }
+        case RUNTIME_MINUTES:
+        // fall-through
+        case START_YEAR:
+        // fall-through
+        case END_YEAR: {
+            return value === '\\N' ? null : parseInt(value, 10);
+        }
+    }
+};
+
 module.exports = {
-    parseMovies,
+    loadDataSet,
     isPartialMatch,
     validateMovie,
     getNextAvailableId,
-    sortByStartYear
+    sortByStartYear,
+    parseBigNumber,
+    parseProperty
 };
